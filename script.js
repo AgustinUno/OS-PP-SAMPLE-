@@ -40,11 +40,12 @@ function increment() {
 function confirm() {
   nOfprcs = prcsHold
   createTable()
+
 }
 
 function createTable() {
   const table = document.querySelector('#prcsTbl')
-
+ 
   // Clear previous table content
   table.innerHTML = ''
   chart.innerHTML = ''
@@ -380,16 +381,19 @@ function output() {
     let y = 0
     let turnAroundTime = process[x].endTime - process[x].arrivalTime
   
-    outputHtml += `<p> P${process[x].Prcsname} &nbsp;&nbsp;${process[x].endTime} - ${process[x].arrivalTime} = ${turnAroundTime}</p>`
+    outputHtml += `<p><span style="color: green;"> P${process[x].Prcsname} </span>&nbsp;&nbsp;${process[x].endTime} - ${process[x].arrivalTime} = ${turnAroundTime}</p>`;
+
   
     totalturnAroundTime += turnAroundTime
   }
   
   let averageturnAroundTime = totalturnAroundTime / nOfprcs
-  let formattedAverageturnAroundTime = averageturnAroundTime.toFixed(2)
+  let formattedAverageturnAroundTime = averageturnAroundTime.toFixed(1)
+
+  outputHtml += `<p>------------------</p>`
   
   outputHtml += `<p id="totaltat"> TTAT = ${totalturnAroundTime} / ${nOfprcs}</p>`
-  outputHtml += `<p id="atat" >ATAT = ${formattedAverageturnAroundTime}ms</p>`
+  outputHtml += `<p id="atat" style="color: green;">ATAT = ${formattedAverageturnAroundTime} &nbsp;ms</p>`
   
   document.getElementById('TATout').innerHTML = outputHtml;
   
@@ -406,7 +410,7 @@ function output() {
       
   if  (process[x].nxtStartTime[0] != 0) {
   
-    outputHtml += `<p> P${process[x].Prcsname} &nbsp;&nbsp;(${process[x].startTime} - ${process[x].arrivalTime}) + `;
+    outputHtml += `<p> <span style="color: green;"> P${process[x].Prcsname}</span> &nbsp;&nbsp;(${process[x].startTime} - ${process[x].arrivalTime}) + `;
     
     while (process[x].nxtStartTime[y] != 0) {
       let nxtWaitingtime = process[x].nxtStartTime[y] - process[x].stopTime[y];
@@ -423,7 +427,8 @@ function output() {
     }
   }
   else{
-    outputHtml += `<p style="color: green;"> P${process[x].Prcsname} &nbsp;&nbsp;${process[x].startTime} - ${process[x].arrivalTime} = ${waitingTime}</p>`
+    outputHtml += `<p><span style="color: green;"> P${process[x].Prcsname}</span> &nbsp;&nbsp;${process[x].startTime} - ${process[x].arrivalTime} = ${waitingTime}</p>`;
+
   }
       
   
@@ -432,11 +437,12 @@ function output() {
   
     let averageWaitingTime = totalWaitingTime / nOfprcs
   
-    let formattedAverageWaitingTime = averageWaitingTime.toFixed(2);
-    outputHtml += `<p>----------------</p>`
+    let formattedAverageWaitingTime = averageWaitingTime.toFixed(1);
+    outputHtml += `<p>------------------</p>`
   
     outputHtml += `<p id="totalwt">TWT = ${totalWaitingTime} / ${nOfprcs}</p>`
-    outputHtml += `<p id="awt"> AWT = ${formattedAverageWaitingTime}ms</p>`
+    outputHtml += `<p id="awt" style="color: green;"> AWT = ${formattedAverageWaitingTime}&nbsp;ms</p>`;
+
   
     document.getElementById('TWTout').innerHTML = outputHtml;
   

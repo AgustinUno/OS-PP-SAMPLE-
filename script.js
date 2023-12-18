@@ -455,3 +455,8 @@ function output() {
   }
 
 
+  document.addEventListener("DOMContentLoaded", function() {
+    // Trigger the fade-in effect when the DOM is fully loaded
+    document.body.classList.add("loaded");
+  });
+  

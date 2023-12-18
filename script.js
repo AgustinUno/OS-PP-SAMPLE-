@@ -138,22 +138,39 @@ if (showinput4.value === -1) {
 }
 
 function fetch() {
+  let spaceCtr;
   let incProcess = 0
   //receives the given
   process = [] //resets array every compute
   CheckProcess = [] //resets array every
 
-  for (let x = 0; x < nOfprcs; x++) {
-    let arrivalTime = document.getElementById('arTime' + (x + 1)).value
-    let burstTime = document.getElementById('brsTime' + (x + 1)).value
-    let priority = document.getElementById('prio' + (x + 1)).value
+ // Assuming you have the error element referenced by an ID
+var errorElement = document.getElementById('errorElement');
 
-    if (arrivalTime != '' && burstTime != '' && priority != '') {
-      incProcess++
-    }
+for (let x = 0; x < nOfprcs; x++) {
+  let arrivalTime = document.getElementById('arTime' + (x + 1)).value
+  let burstTime = document.getElementById('brsTime' + (x + 1)).value
+  let priority = document.getElementById('prio' + (x + 1)).value
+
+  if (arrivalTime != '' && burstTime != '' && priority != '') {
+    incProcess++
+  } else {
+    console.log("SPACE DETECTED");
+    spaceCtr = 1;
+
+    // Add a class to the error element to set the width to 400px
+    errorElement.classList.add('open');
+
+    // Remove the class after a delay (adjust the delay as needed)
+    setTimeout(function () {
+      errorElement.classList.remove('open');
+    }, 2000); // 2000 milliseconds (2 seconds) delay
   }
+}
+
 
   if (incProcess == nOfprcs) {
+    
     for (let x = 0; x < nOfprcs; x++) {
       process.push({
         Prcsname: x + 1,
@@ -353,35 +370,82 @@ function toggleDarkMode() {
 }
 
 function output() {
+
+  
+
   let outputHtml = ''
-
-  let totalWatingTime = 0
-
+  let totalturnAroundTime = 0;
+  
   for (let x = 0; x < nOfprcs; x++) {
     let y = 0
-    let waitingTime = process[x].startTime - process[x].arrivalTime
-
-    outputHtml += `<p> <span style="color: green;">P${process[x].Prcsname} &nbsp;&nbsp;</span> ${process[x].startTime} - ${process[x].arrivalTime} = ${waitingTime}</p>
-    `
-
+    let turnAroundTime = process[x].endTime - process[x].arrivalTime
+  
+    outputHtml += `<p> P${process[x].Prcsname} &nbsp;&nbsp;${process[x].endTime} - ${process[x].arrivalTime} = ${turnAroundTime}</p>`
+  
+    totalturnAroundTime += turnAroundTime
+  }
+  
+  let averageturnAroundTime = totalturnAroundTime / nOfprcs
+  let formattedAverageturnAroundTime = averageturnAroundTime.toFixed(2)
+  
+  outputHtml += `<p id="totaltat"> TTAT = ${totalturnAroundTime} / ${nOfprcs}</p>`
+  outputHtml += `<p id="atat" >ATAT = ${formattedAverageturnAroundTime}ms</p>`
+  
+  document.getElementById('TATout').innerHTML = outputHtml;
+  
+  
+  outputHtml = ''
+    //WT---------------------------------------------------------------------
+    let totalWaitingTime = 0
+  
+    for (let x = 0; x < nOfprcs; x++) {
+      let y = 0
+      let waitingTime = process[x].startTime - process[x].arrivalTime
+  
+      
+      
+  if  (process[x].nxtStartTime[0] != 0) {
+  
+    outputHtml += `<p> P${process[x].Prcsname} &nbsp;&nbsp;(${process[x].startTime} - ${process[x].arrivalTime}) + `;
+    
     while (process[x].nxtStartTime[y] != 0) {
-      outputHtml += `<p>  ${process[x].nxtStartTime[y]}</p>`
+      let nxtWaitingtime = process[x].nxtStartTime[y] - process[x].stopTime[y];
+      waitingTime += nxtWaitingtime;
+      if (process[x].nxtStartTime[y+1] != 0) {
+  
+        outputHtml += `(${process[x].nxtStartTime[y]} - ${process[x].stopTime[y]}) + `
+  
+      }
+      else{
+        outputHtml += ` (${process[x].nxtStartTime[y]} - ${process[x].stopTime[y]}) = ${waitingTime}</p>`
+      } 
       y++
     }
-
-    totalWatingTime += waitingTime
   }
-
-  let averageWaitingTime = totalWatingTime / nOfprcs
-
-  outputHtml += '<p>----------------</p>'
-  outputHtml += `<p>TWT = ${totalWatingTime} / ${nOfprcs}</p>`
-  outputHtml += `<p>AWT = ${averageWaitingTime}ms</p>`
-
-  document.getElementById('TWTout').innerHTML = outputHtml
-
-  //WT
-}
-
+  else{
+    outputHtml += `<p style="color: green;"> P${process[x].Prcsname} &nbsp;&nbsp;${process[x].startTime} - ${process[x].arrivalTime} = ${waitingTime}</p>`
+  }
+      
+  
+      totalWaitingTime += waitingTime
+    }
+  
+    let averageWaitingTime = totalWaitingTime / nOfprcs
+  
+    let formattedAverageWaitingTime = averageWaitingTime.toFixed(2);
+    outputHtml += `<p>----------------</p>`
+  
+    outputHtml += `<p id="totalwt">TWT = ${totalWaitingTime} / ${nOfprcs}</p>`
+    outputHtml += `<p id="awt"> AWT = ${formattedAverageWaitingTime}ms</p>`
+  
+    document.getElementById('TWTout').innerHTML = outputHtml;
+  
+  
+  
+  
+  
+   
+  
+  }
 
 

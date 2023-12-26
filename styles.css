@@ -117,7 +117,6 @@ opacity: 1;
   max-width: 3000px;
   max-height: 1000px;
   position: fixed;
-
   top: 30px;
   /* Adjust the top position to align with the top of #custom-container */
   right: 160px;
@@ -125,7 +124,6 @@ opacity: 1;
   border-radius: 35px;
   background: #ffffff;
   box-shadow: 0px 0px 13.95px rgba(0, 0, 0, 0.1);
-
   transition: width 0.2s ease;
 }
 
@@ -139,9 +137,6 @@ opacity: 1;
   height: 50px;
   max-width: 3000px;
   max-height: 1000px;
-  position: fixed;
-  top: 30px;
-  left: 97px;
   color: black;
   border-radius: 35px;
   background: #545b5c;
@@ -152,7 +147,10 @@ opacity: 1;
   background-position-x: 10px;
   background-position-y: center;
   filter: invert(1);
-  transition: width 0.2s ease , background 0.3s ease;
+  transition: width 0.2s ease, background 0.3s ease;
+  position: absolute;
+  top: 10px; /* Adjust this value to create space from the top */
+  left: 10px; /* Adjust this value to create space from the left */
 }
 
 .error.open {
@@ -173,6 +171,7 @@ opacity: 1;
   opacity: 1;
  
 }
+
 
 
 .icon {
@@ -232,8 +231,9 @@ body {
   min-width: 1200px;
   backdrop-filter: blur(100px);
   opacity: 90%;
-  /* Align with the top of the viewport */
+  margin: 10px;
 }
+
 
 .note {
   display: flex;
@@ -614,3 +614,15 @@ increbtn:active {
   color: rgb(26, 190, 11);
   width: 250px;
 }
+
+#main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height:95%;
+  position: fixed;
+  overflow: auto; /* Add this line to enable scrolling when content overflows */
+}
+
